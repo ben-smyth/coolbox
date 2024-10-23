@@ -3,3 +3,5 @@ A self-hosted option for common dev tools, such as markup converters, linting or
 
 # todo
 - [ ] create a JSON to YAML converter with a web UI. Do not worry about structure, just make it work.
+- [ ] break down the converter into components, and attempt to modulise
+- [ ] build a second converter using the new modulised system
