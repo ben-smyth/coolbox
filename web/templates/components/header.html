@@ -1,0 +1,19 @@
+{{define "header"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatiable" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{.WebsiteAssetUrl}}css/styles.css?id=0" rel="stylesheet"/>    
+    <link rel="icon" type="image/x-icon" href="{{.WebsiteAssetUrl}}images/favicon.png">
+    <script src="https://unpkg.com/htmx.org@1.9.9" integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX" crossorigin="anonymous"></script>
+    {{if .Dev }}
+        {{ template "devSocket" . }}
+    {{end}}
+    <script src="{{.WebsiteAssetUrl}}scripts/animation.js"></script>
+    <title>coolbox</title>
+</head>
+
+<body>
+{{end}}
