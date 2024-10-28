@@ -6,19 +6,19 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"strconv"
 	"strings"
 
+	"github.com/ben-smyth/coolbox/pkg/core_tools/json2yaml"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
 )
 
 type WebApp struct {
+	Dev             bool
 	Port            int
 	LocalAssetPath  string
-	WebsiteAssetUrl string
 	WebsiteUrl      string
-	Dev             bool
+	WebsiteAssetUrl template.URL
 }
 
 func ServeWebsite(app WebApp) error {
@@ -34,7 +34,19 @@ func ServeWebsite(app WebApp) error {
 	r.PathPrefix("/static/").Handler(cacheControlMiddleware(http.StripPrefix("/static/", fs)))
 	r.HandleFunc("/", app.IndexHandler)
 
-	return http.ListenAndServe(fmt.Sprintf("%s:%s", app.WebsiteUrl, strconv.Itoa(app.Port)), r)
+	r.HandleFunc("/plugin/json2yaml", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "POST" {
+			r.ParseForm()
+			jsonData := r.FormValue("json")
+			yaml, err := json2yaml.ConvertJson2Yaml(jsonData)
+			if err != nil {
+				w.Write([]byte(err.Error()))
+			}
+			w.Write([]byte(yaml))
+		}
+	})
+
+	return http.ListenAndServe(app.WebsiteUrl, r)
 }
 
 func (a *WebApp) IndexHandler(w http.ResponseWriter, r *http.Request) {

@@ -2,6 +2,10 @@
 
 {{template "header" . }}
 
+<form hx-post="/plugin/json2yaml" hx-trigger="input" hx-target="#translated-json">
+	<textarea id="json" name="json" rows="20" cols="70" placeholder="Paste your JSON here..."></textarea><br><br>
+</form>
+<textarea id="translated-json" rows="20" cols="70" readonly>YAML code will appear here</textarea>
 {{template "footer" .}}
 
 {{ end }}
